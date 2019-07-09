@@ -133,7 +133,13 @@ enum token_type {
      */
     PREP_NUMBER,
     PREP_CHAR,
-    PREP_STRING
+    PREP_STRING,
+
+    /*
+     * Preprocessing token representing an optional comma. Used to
+     * implement a GNU extension in variable-length macros.
+     */
+    PREP_COMMA = 0x69
 };
 
 /*

@@ -608,7 +608,7 @@ static struct macro preprocess_define(
     const struct token **endptr)
 {
     struct macro macro = {0};
-    struct token param = {PARAM}, t;
+    struct token param = {PARAM}, comma = {PREP_COMMA}, t;
     TokenArray params = get_token_array();
     int i;
 
@@ -659,6 +659,10 @@ static struct macro preprocess_define(
         }
         if (param.d.val.i != -1) {
             array_push_back(&macro.replacement, param);
+        } else if (line->token == ',' && line[1].token == TOKEN_PASTE &&
+                   !tok_cmp(line[2], ident__VA_ARGS__)) {
+            array_push_back(&macro.replacement, comma);
+            line++; /* Eat the following ## token. */
         } else {
             array_push_back(&macro.replacement, *line);
         }

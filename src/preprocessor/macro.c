@@ -416,6 +416,15 @@ static TokenArray expand_stringify_and_paste(
                 exit(1);
             }
             break;
+        case PREP_COMMA:
+            s = array_get(&def->replacement, i + 1);
+            if (s.token == PARAM && array_len(&args[s.d.val.i])) {
+                struct token comma = t;
+                comma.token = ',';
+                comma.d.string = str_init(",");
+                array_push_back(&list, comma);
+            }
+            break;
         default:
             array_push_back(&list, t);
             break;
